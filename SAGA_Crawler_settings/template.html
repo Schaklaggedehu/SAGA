@@ -1,0 +1,124 @@
+<html>
+<head>
+    <style>
+        .border {
+            border: grey solid thin;
+        }
+
+        p {
+            font-size: 16px;
+            margin: 2px;
+        }
+
+        .property {
+            margin-bottom: 60px;
+        }
+
+        .circle {
+            font-size: 20px;
+            font-weight: bolder;
+        }
+
+        .red {
+            color: #d60003;
+        }
+
+        .yellow {
+            color: #ebb500;
+        }
+
+        .green {
+            color: #00d609;
+        }
+
+        .light {
+            color: #cdcdcd;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+
+        .block {
+            margin-bottom: 20px;
+            padding: 10px;
+        }
+
+    </style>
+</head>
+<body class="allProperties">
+
+{{ range $key, $value := . }}
+
+    <div class="property border">
+        <div class="block">
+            <h2 class="title">{{$value.Title}}</h2>
+            <p class="url">{{$value.Url}}</p>
+            <p class="address">Adresse:
+                <span class="bold">{{$value.Address}}</span></p>
+        </div>
+        <div class="block">
+            <p class="distance">Heimweg: <span class="bold">{{ $value.Distance1 }} Minuten</span>
+                von {{ $value.Address1 }} <span
+                        class="circle {{ index $value.Distance1Status 0}}">{{ index $value.Distance1Status 1}}</span>
+                <span
+                        class="light">(Ziel unter {{ $value.Conditions.MaxCommute}} Minuten)</span>
+            </p>
+            <p class="journey">{{index $value.Journey1 0}}<span
+                        class="bold red">{{index $value.Journey1 2}}</span>{{index $value.Journey1 1}}</p>
+        </div>
+        <div class="block">
+            <p class="distance">Heimweg: <span class="bold">{{$value.Distance2}} Minuten</span>
+                von {{ $value.Address2 }} <span
+                        class="circle {{ index $value.Distance2Status 0}}">{{ index $value.Distance2Status 1}}</span>
+                <span
+                        class="light">(Ziel unter {{ $value.Conditions.MaxCommute}} Minuten)</span>
+            </p>
+            <p class="journey">{{index $value.Journey2 0}}<span
+                        class="bold red">{{index $value.Journey2 2}}</span>{{index $value.Journey2 1}}</p>
+        </div>
+        <div class="block">
+            <p class="data">Zimmer: <span class="bold">{{ $value.Rooms}}</span> <span
+                        class="circle {{index $value.RoomsStatus 0}}">{{index $value.RoomsStatus 1}}</span>
+                <span class="light">(Ziel mindestens {{ $value.Conditions.MinRooms}} Zimmer)</span></p>
+            <p class="data">Größe: <span class="bold">{{ $value.Size}}</span> <span
+                        class="circle {{index $value.SizeStatus 0}}">{{index $value.SizeStatus 1}}</span>
+                <span class="light">(Ziel mindestens {{ $value.Conditions.MinSize}} m²)</span></p>
+            <p class="data">Miete warm: <span class="bold">{{ $value.Rent}}</span> <span
+                        class="circle {{index $value.RentStatus 0}}">{{index $value.RentStatus 1}}</span>
+                <span class="light">(Ziel maximal {{ $value.Conditions.MaxRent}} €)</span></p>
+        </div>
+
+        <div class="block">
+            {{if or $value.InfoGood $value.InfoBad}}
+                <p class="data">Schlüsselworte:</p>
+            {{ end }}
+            {{ range $k, $val := $value.InfoGood }}
+                <p class="data">{{index $val 0}}<span class="green bold">{{index $val 2}}</span>{{index $val 1}}</p>
+            {{ end }}
+            {{ range $k, $val := $value.InfoBad }}
+                <p class="data">{{index $val 0}}<span class="red bold">{{index $val 2}}</span>{{index $val 1}}</p>
+            {{ end }}
+        </div>
+        <div class="block">
+            <p class="data">Etage: <span class="bold">{{ $value.Floor}}</span></p>
+            <p class="data">Preis: <span class="bold">{{ $value.PricePerSQM}}</span></p>
+            <p class="data">Verfügbar ab: <span class="bold">{{ $value.AvailableFrom}}</span></p>
+            {{if $value.Viewing}}
+                <p class="data">Besichtigung am: <span class="bold">{{ $value.Viewing}}</span></p>
+            {{ end }}
+        </div>
+        <div class="block">
+            <p>Exposé anfordern?
+                {{if $value.Red}}
+                    <span class="bold">NEIN! Mindestens eine Bedingung im roten Bereich</span>
+                {{else}}
+                    <span class="bold">JA! Keine Bedingung im roten Bereich</span>
+                {{ end }}
+            </p>
+            <p class="url">{{$value.Url}}</p>
+        </div>
+    </div>
+{{ end }}
+</body>
+</html>

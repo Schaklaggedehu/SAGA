@@ -1,0 +1,7 @@
+{
+  "maxRent": 700,
+  "minRooms": 2,
+  "minSize": 65,
+  "minFloor": 2,
+  "maxCommute": 40
+}
