@@ -13,7 +13,6 @@ import (
 	"net/http"
 	"os"
 	"strconv"
-	"time"
 )
 
 var searchUrl = "https://www.saga.hamburg/immobiliensuche?type=wohnungen"
@@ -32,11 +31,6 @@ func main() {
 	resourcer.InitConfigData()
 
 	runCrawler()
-	if !resourcer.DEBUG {
-		for range time.Tick(time.Minute * time.Duration(resourcer.PersonalInfo.Frequency)) {
-			runCrawler()
-		}
-	}
 }
 
 func runCrawler() {
